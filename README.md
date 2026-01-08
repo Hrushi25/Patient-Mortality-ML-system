@@ -1,77 +1,134 @@
-# ML-Patient-Mortality
-# 🧠 Predicting Patient Mortality using Machine Learning
+🏥 Predicting Patient Mortality — ML System with Explainability
+Overview
 
-This project focuses on predicting **patient mortality risk** using anonymized COVID-19 medical data. We explored traditional machine learning models and neural networks to classify whether a patient would **live or die**, based on various health indicators like age, comorbidities, hospitalization, and COVID-positive status.
+This project implements an end-to-end machine learning system to predict patient mortality risk using structured healthcare data.
+The focus is not only on model accuracy, but also on engineering discipline, evaluation rigor, and explainability, making the system suitable for real-world decision support.
 
----
+The project follows a production-style ML workflow:
 
-## 📁 Project Structure
+Offline experimentation with multiple algorithms
 
-predicting-patient-mortality/
-├── Project_Predicting_Patient_Mortality.ipynb # Main notebook
-├── figures/ # Visualizations (SHAP, metrics, etc.)
-├── data/ # Sample dataset & data readme
-├── requirements.txt # Python dependencies
-└── README.md # Project overview (this file)
+Metric-driven model selection
+
+Promotion of a single best-performing model for inference
+
+Explainability using SHAP to support interpretability in healthcare settings
+
+🎯 Problem Statement
+
+Patient mortality prediction is a critical task in healthcare, where early risk identification can support clinical decision-making and resource allocation.
+
+Key challenges addressed:
+
+Class imbalance (mortality events are rare)
+
+Model interpretability in a regulated domain
+
+Threshold selection for precision–recall trade-offs
+
+Generalization vs overfitting
+
+🧠 ML & Engineering Approach
+1. Data Analysis & Feature Understanding
+
+Exploratory data analysis to understand demographic and clinical features
+
+Correlation analysis to identify feature relationships
+
+Visualization-driven insight generation
+
+2. Multiple Model Experimentation
+
+To avoid bias toward a single approach, multiple algorithms were implemented and evaluated:
+
+Logistic Regression (baseline)
+
+Decision Tree
+
+Random Forest
+
+All models share a common interface, enabling consistent training, evaluation, and comparison.
+
+3. Model Evaluation Strategy
+
+F1-score used as the primary metric to handle class imbalance
+
+Threshold-aware evaluation to balance recall vs precision
+
+Overfitting analysis using train vs validation metrics
+
+4. Model Selection & Promotion
+
+All candidate models are trained and evaluated offline
+
+The best-performing model is promoted to production
+
+Non-selected models remain available for future experimentation and retraining
+
+5. Explainability (SHAP)
+
+SHAP values used to interpret feature impact
 
 
+📊 Explainability & Visualizations
 
----
+The project includes:
 
-## 📊 Dataset
+Correlation heatmaps
 
-- Anonymized dataset with **1,048,576 patient records**.
-- Features include:
-  - Demographics: `AGE`, `SEX`
-  - Health conditions: `DIABETES`, `HYPERTENSION`, `OBESITY`, etc.
-  - COVID-specific info: `COVID_POSITIVE`, `HOSPITALIZED`, `PNEUMONIA`
-- **Target variable**: `DEATH` (1 = Died, 0 = Lived)
+Model performance comparisons
 
----
+Training vs validation curves
 
-## 🤖 Models Used
+SHAP feature importance and summary plots
 
-- Decision Tree
-- Random Forest
-- Gradient Boosting (LightGBM)
-- Neural Network (Keras)
+These artifacts support model debugging, trust, and communication with non-ML stakeholders.
 
----
+🏗️ Production Considerations
 
-## 📈 Evaluation Metrics
+Model Retraining
+Models can be retrained periodically as new patient data becomes available.
 
-- Accuracy
-- Precision, Recall
-- F1 Score
-- ROC-AUC
-- SHAP values for interpretability
+Threshold Calibration
+Decision thresholds are configurable to balance recall vs precision depending on clinical risk tolerance.
 
----
+Explainability
+SHAP-based explanations enable inspection of feature contributions for individual predictions.
 
-## 📊 Visualizations
+Failure Modes & Risks
 
-- Disease prevalence across age groups
-- Feature correlation heatmap
-- Decision tree visualization
-- Hyperparameter heatmap for Random Forest
-- SHAP summary & importance plots
-- F1 score comparison
-- Training/Validation metrics (NN)
-- Threshold vs Metrics plot
+Data drift due to changing patient demographics
 
-(See `figures/` folder)
+Missing or noisy clinical inputs
 
----
+Bias amplification if retraining data is skewed
 
-## ⚙️ How to Run
+🛠️ Tech Stack
 
-```bash
-# Clone the repo
-git clone https://github.com/your-username/predicting-patient-mortality.git
-cd predicting-patient-mortality
+Machine Learning
 
-# Install dependencies
-pip install -r requirements.txt
+Python
 
-# Open the notebook
-jupyter notebook Project_Predicting_Patient_Mortality.ipynb
+Scikit-learn
+
+SHAP
+
+NumPy, Pandas
+
+Backend / Serving
+
+FastAPI
+
+Pydantic
+
+Joblib
+
+Visualization
+
+Matplotlib
+
+Seaborn
+
+Supports transparency and trust in predictions
+
+Enables clinical review of model behavior
